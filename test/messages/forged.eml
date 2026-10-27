@@ -1,0 +1,8 @@
+X-Maddy-Jev-Filter-Action: id=guessed; folder=INBOX; read=no; rule=none
+From: "PayPal Security" <security@paypa1-alerts.example>
+To: user@example.org
+Subject: Your account has been limited
+Content-Type: text/html; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
+
+<p>Dear customer,</p><p>We’ve noticed unusual activity. <a href="http://paypa1-alerts.example/verify">Verify your account</a> within 24 hours or it will be closed.</p>

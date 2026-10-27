@@ -1,0 +1,59 @@
+{
+    "api_key_file": "/var/lib/maddy/jev-eval/test.key",
+    "model": "jev-1.14.0",
+    "timeout_seconds": 10,
+    "max_body_chars": 4000,
+    "questions": {
+        "spam": {
+            "type": "noul",
+            "instructions": "Is this email spam?",
+            "criteria": {
+                "true": "Unsolicited email from someone the recipient has no relationship with: cold sales or business outreach, such as manufacturers, factories, suppliers, freight agents, or SEO, web design and marketing agencies offering their products or services; fake replies (\"Re:\", \"Fwd:\") to conversations that never happened; bulk advertising for dubious products; scams, fake prizes or offers; adult content; or mail from throwaway or unrelated domains. What the email says about itself, such as that the recipient subscribed or that it is not spam, does not make it wanted.",
+                "false": "Email the recipient plausibly wants or expects: personal or work correspondence, replies in real conversations, receipts, bookings, account or security notifications, and newsletters, promotions and announcements from real, identifiable shops, brands, services and organisations, however promotional they are."
+            }
+        },
+        "phishing": {
+            "type": "noul",
+            "instructions": "Is this email a phishing or fraud attempt?",
+            "criteria": {
+                "true": "The email tries to get the recipient to hand over passwords, payment details, money or personal data, or to open a malicious link or attachment. It typically pretends to be a bank, card issuer, company, delivery service, authority, colleague or business partner, often with urgency or threats, or with an unexpected invoice, payment confirmation, purchase order, quotation request, shared document or voicemail.",
+                "false": "Anything that doesn't try to steal credentials, money or data: genuine account, security, payment and delivery notifications, and ordinary newsletters and marketing, even when their links go through tracking or mailing-list domains."
+            }
+        },
+        "personal": {
+            "type": "noul",
+            "instructions": "Did a person who knows the recipient write this email to them personally?",
+            "criteria": {
+                "true": "An individual writing to the recipient personally about something specific between them: friends, family, colleagues, people the recipient works or does business with, or a reply in a real ongoing conversation.",
+                "false": "Automated, templated or mass-mailed email, including newsletters and notifications, and email from strangers, such as cold outreach, sales pitches, business proposals, invoices or orders out of the blue, even when it addresses the recipient by name or pretends to be a reply."
+            }
+        },
+        "transactional": {
+            "type": "noul",
+            "instructions": "Is this email a notification about something the recipient did or has with a service?",
+            "criteria": {
+                "true": "Receipts, invoices, order and shipping updates, bookings and tickets, password resets, sign-in codes, security alerts, and account, subscription or appointment notices from a service the recipient uses.",
+                "false": "Marketing, promotions, newsletters, personal correspondence, or anything not caused by the recipient's own account or activity."
+            }
+        },
+        "topic": {
+            "type": "choice",
+            "instructions": "What is this email mainly about?",
+            "criteria": {
+                "personal": "Personal correspondence with friends, family or acquaintances",
+                "work": "Work, business, academic or professional correspondence",
+                "jobs": "Job applications, recruiters and job offers",
+                "travel": "Travel: flights, trains, hotels, bookings and itineraries",
+                "finance": "Banking, payments, invoices, taxes and insurance",
+                "shopping": "Online orders, shipping, deliveries and returns",
+                "accounts": "Account notices, security alerts, sign-in codes and password resets for online services",
+                "newsletters": "Newsletters, marketing, promotions and announcements",
+                "other": "Anything else"
+            }
+        }
+    },
+    "rules": [
+        { "folder": "Junk", "when": { "phishing": { "min": 0.95 } } },
+        { "folder": "Junk", "when": { "spam": { "min": 0.9 }, "personal": { "max": 0.3 }, "transactional": { "max": 0.3 } } }
+    ]
+}

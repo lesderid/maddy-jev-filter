@@ -1,0 +1,13 @@
+# Rebuilds the examples for the not_interested question from the
+# "Not interested" folder. Edit the account and folder for your setup.
+[Unit]
+Description=Update maddy-jev-filter's examples from the Not interested folder
+After=maddy.service
+
+[Service]
+Type=oneshot
+User=maddy
+Group=maddy
+WorkingDirectory=/var/lib/maddy
+ExecStartPre=/usr/bin/mkdir -p /var/lib/maddy/jev-filter
+ExecStart=/usr/local/lib/maddy-jev-filter/tools/update-examples.sh user@example.org "Not interested" /var/lib/maddy/jev-filter/not-interested.json

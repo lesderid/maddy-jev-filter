@@ -1,0 +1,14 @@
+# Lists the senders the account has kept mail from, and those of everything in
+# Junk, for the sender_kept and sender_junked facts.
+# Edit the account for your setup.
+[Unit]
+Description=Update maddy-jev-filter's lists of senders you kept and junked mail from
+After=maddy.service
+
+[Service]
+Type=oneshot
+User=maddy
+Group=maddy
+WorkingDirectory=/var/lib/maddy
+ExecStartPre=/usr/bin/mkdir -p /var/lib/maddy/jev-filter
+ExecStart=/usr/local/lib/maddy-jev-filter/tools/update-kept-senders.sh -j /var/lib/maddy/jev-filter/junked-senders.txt user@example.org /var/lib/maddy/jev-filter/kept-senders.txt

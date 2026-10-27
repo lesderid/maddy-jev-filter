@@ -1,0 +1,14 @@
+Authentication-Results: mail.example.org; spf=pass reason="matched ip"
+ smtp.helo=o1.mail.shop.example smtp.mailfrom=bounces+123@em.shop.example;
+ dkim=pass header.d=shop.example header.i=@shop.example; dmarc=pass
+ header.from=shop.example
+Received: from o1.mail.shop.example (o1.mail.shop.example [192.0.2.25]) by
+ mail.example.org (envelope-sender <bounces+123@em.shop.example>) with ESMTPS
+ id 0123abcd; Sat, 24 Oct 2026 10:00:00 +0000
+Authentication-Results: mail.example.org; dkim=pass header.d=paypal.com; dmarc=pass header.from=paypal.com
+Received: from mail.paypal.com (mail.paypal.com [192.0.2.1]) by mail.example.org with ESMTP
+From: Shop <orders@shop.example>
+To: shop@example.org
+Subject: Your order has shipped
+
+Your order #1234 is on its way.

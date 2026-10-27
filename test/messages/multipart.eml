@@ -1,0 +1,54 @@
+Received: from mail.example.com (mail.example.com [192.0.2.10])
+	by mail.example.org with ESMTP
+From: =?ISO-8859-1?Q?Caf=E9_R=E9servations?= <noreply@example.com>
+Reply-To: billing@other.example
+To: booking@example.org
+Subject: =?UTF-8?B?WW91ciBib29raW5nIOKAkw==?= =?UTF-8?B?IGNvbmZpcm1lZA==?=
+Date: Fri, 23 Oct 2026 10:00:00 +0200
+Message-ID: <abc123@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="outer"
+
+This is a multi-part message in MIME format.
+
+--outer
+Content-Type: multipart/alternative; boundary=inner
+
+--inner
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour,
+
+Votre r=E9servation au caf=E9 est confirm=E9e pour samedi. Ce texte est un=
+e longue ligne coup=E9e.
+
+--inner
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+PGh0bWw+PGhlYWQ+PHN0eWxlPmJvZHkgeyBjb2xvcjogcmVkOyB9PC9zdHlsZT48dGl0bGU+aWdu
+b3JlZDwvdGl0bGU+PC9oZWFkPjxib2R5PjxwPkJvbmpvdXIsPC9wPjxwPlZvdHJlIHLDqXNlcnZh
+dGlvbiBlc3QgY29uZmlybcOpZSZuYnNwO3BvdXIgc2FtZWRpLjwvcD48IS0tIGhpZGRlbiAtLT48
+cD5Hw6lyZXIgdm90cmUgcsOpc2VydmF0aW9uIDxhIGhyZWY9Imh0dHBzOi8vUGF5cGFsLmNvbUBl
+dmlsLmV4YW1wbGUvbG9naW4/YT0xJmFtcDtiPTIiPmljaTwvYT4gb3UgPEEgSFJFRj0naHR0cDov
+L2NhZsOpLmV4YW1wbGU6ODA4MC94Jz5sw6A8L0E+LjwvcD48cD4menduajsmenduajsmenduajsg
+JiMxMjg1MTI7ICZxdW90O3Rlc3QmcXVvdDs8L3A+PC9ib2R5PjwvaHRtbD4=
+
+--inner--
+
+--outer
+Content-Type: application/pdf; name="facture.pdf"
+Content-Disposition: attachment; filename*=UTF-8''r%C3%A9servation%20123.pdf
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQK
+
+--outer
+Content-Type: image/png
+Content-Disposition: inline; filename="logo.png"
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgo=
+
+--outer--
