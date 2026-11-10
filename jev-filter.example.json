@@ -205,6 +205,44 @@
       }
     },
     {
+      "id": "risky-attachment-phishing",
+      "description": "maybe phishing, with a risky attachment, from a sender you never kept mail from",
+      "folder": "Junk",
+      "flags": [
+        "\\Seen"
+      ],
+      "when": {
+        "phishing": {
+          "min": 0.5
+        },
+        "risky_attachment": {
+          "min": 1
+        },
+        "sender_kept": {
+          "max": 0
+        }
+      }
+    },
+    {
+      "id": "risky-attachment-spam",
+      "description": "maybe spam, with a risky attachment, from a sender you never kept mail from",
+      "folder": "Junk",
+      "flags": [
+        "\\Seen"
+      ],
+      "when": {
+        "spam": {
+          "min": 0.5
+        },
+        "risky_attachment": {
+          "min": 1
+        },
+        "sender_kept": {
+          "max": 0
+        }
+      }
+    },
+    {
       "id": "spam-likely",
       "description": "probably spam, worth a look",
       "folder": "Suspicious",
@@ -227,6 +265,19 @@
       "when": {
         "phishing": {
           "min": 0.8
+        }
+      }
+    },
+    {
+      "id": "phishing-new-sender",
+      "description": "possible phishing from a sender you never kept mail from",
+      "folder": "Suspicious",
+      "when": {
+        "phishing": {
+          "min": 0.7
+        },
+        "sender_kept": {
+          "max": 0
         }
       }
     },

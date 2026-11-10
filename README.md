@@ -27,7 +27,7 @@ On a sample of about 2,000 spam messages and 3,600 real ones:
 
 | | Junk | Suspicious | INBOX |
 |---|---|---|---|
-| Spam | 96.0% | 0.6% | 3.4% |
+| Spam | 96.2% | 0.6% | 3.2% |
 | Real mail | 0 | 8 | 3,587 |
 
 The example config leans towards leaving spam in INBOX over junking real
@@ -43,7 +43,7 @@ maddy runs the filter twice for each message:
    message to Jev, applies the rules and adds two header fields:
 
    ```
-   X-Maddy-Jev-Filter: id=8f1c0e2a; not_interested=0.050; personal=0.012; phishing=0.031; spam=0.981; topic=shopping:0.870; transactional=0.020; sender_kept=no; sender_junked=yes; model=jev-1.14.0; rcpt=shop@example.org
+   X-Maddy-Jev-Filter: id=8f1c0e2a; not_interested=0.050; personal=0.012; phishing=0.031; spam=0.981; topic=shopping:0.870; transactional=0.020; sender_kept=no; sender_junked=yes; risky_attachment=no; model=jev-1.14.0; rcpt=shop@example.org
    X-Maddy-Jev-Filter-Action: id=8f1c0e2a; folder=Junk; read=yes; rule=spam-certain; version=4f2a9c81d0e3
    ```
 

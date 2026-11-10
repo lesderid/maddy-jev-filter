@@ -189,7 +189,7 @@ version's rules.
     Suspicious is now mostly `phishing-likely` (12 of 13 from Junk, 5 of 8
     real: card failures, account verification); `spam-likely` only fires
     for known senders.
-- **v14** (the current `jev-filter.example.json`): rule
+- **v14**: rule
   `spam-junked-sender`, spam ≥ 0.5, personal and transactional ≤ 0.3,
   `sender_kept` 0 and `sender_junked` 1 (mail from the sender in Junk).
   Prompted by a business filing service's annual report reminders to an
@@ -218,6 +218,31 @@ version's rules.
       it from the recipient"), only the spam question, 22 messages: the
       filing service's reminders went from 0.57–0.65 to 0.64–0.73, and real
       mail to aliases rose by up to 0.1 as well.
+
+- **v15** (the current `jev-filter.example.json`): fact `risky_attachment`,
+  1 when a part's file name ends in an archive or disk image, program or
+  script, HTML or SVG, or macro Office extension, and three rules that use
+  it or `sender_kept`: `risky-attachment-phishing` and
+  `risky-attachment-spam` (phishing or spam ≥ 0.5, a risky attachment, sender
+  never kept → Junk) and `phishing-new-sender` (phishing ≥ 0.7, sender never
+  kept → Suspicious). Prompted by a "PURCHASE ORDER" mail with a .zip from a
+  freight domain with its own SPF, DKIM and DMARC, signed as an Italian valve
+  maker (phishing 0.76, spam 0.54, transactional 0.73), which no rule
+  caught. Simulated like v13, with the attachment file names from maddy's
+  stored body structure.
+  - Whole mailbox: 171 messages in Junk with a risky attachment from a sender
+    never kept before, 1 from a kept sender. In kept folders, 316 from kept
+    senders and 12 from senders never kept: 9 DMARC reports, that purchase
+    order, an archived phishing mail, and one real letter with an HTML
+    attachment (phishing 0.07, spam 0.09). Extensions in Junk: html 63, gz
+    27, rar 22, arj 14, zip 13, 7z 9, iso 8.
+  - Sample, with the 5 archived spam counted as spam: the attachment rules
+    move 4 from Suspicious to Junk, `phishing-new-sender` 3 from INBOX to
+    Suspicious, and no real mail moves. At phishing ≥ 0.6 it would move 6
+    real messages (a baggage-tracing notice, a password reset, an arrival
+    card form, an email confirmation, a welcome mail and a test panel
+    invitation), so 0.7. Total: spam (2,002) 96.2% Junk,
+    0.6% Suspicious, 3.2% INBOX; real mail (3,595) 0 Junk, 8 Suspicious.
 
 - **Quarantined mail** (`quarantined/` on the mail server): maddy
   quarantined 24 messages for SPF, 6 for DMARC and 9 for missing MX records

@@ -21,9 +21,10 @@ enum defaultEndpoint = "https://api.typesafe.ai/v1/systemone";
 
 /// What the filter knows about a message without asking Jev, usable in rules
 /// like answers. sender_kept is 1 if the recipient has kept mail from the
-/// sender before, sender_junked is 1 if mail from the sender is in Junk;
-/// otherwise 0.
-enum facts = ["sender_kept", "sender_junked"];
+/// sender before, sender_junked is 1 if mail from the sender is in Junk, and
+/// risky_attachment is 1 if the message has a file of a kind phishing and
+/// malware use; otherwise 0.
+enum facts = ["sender_kept", "sender_junked", "risky_attachment"];
 
 /// The facts that come from a list of senders, and the setting with its file
 struct SenderList

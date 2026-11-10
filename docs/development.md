@@ -5,7 +5,7 @@
 - `maddy-jev-filter.d`: the command line, and the `check` and `route` stages.
 - `jevfilter/config.d`: the config file, includes, rules and facts.
 - `jevfilter/jev.d`: the Jev request, and turning answers into a folder.
-- `jevfilter/message.d`: what Jev sees of a message.
+- `jevfilter/message.d`: what Jev sees of a message, and risky attachments.
 - `jevfilter/mime.d`: header fields, multipart, transfer encodings, charsets.
 - `jevfilter/text.d`: HTML to text, link domains, whitespace.
 - `jevfilter/examples.d`: matching senders, for Not interested and the

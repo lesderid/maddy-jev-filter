@@ -69,8 +69,10 @@ from Sent. It reads maddy's database directly and takes a couple of seconds.
 The filter then records `sender_kept=yes` or `no` for each message, matching
 the sender the same way as Not interested: by domain, or by address at free
 mail providers. The `spam-new-sender` rule junks probable spam (0.85) from
-senders you've never kept mail from. Moving a message out of Junk or
-Suspicious makes its sender known.
+senders you've never kept mail from. Possible phishing (0.7) from them goes
+to Suspicious, and mail that may be spam or phishing (0.5) with a
+[risky attachment](configuration.md#facts) goes to Junk. Moving a message
+out of Junk or Suspicious makes its sender known.
 
 Junk teaches the filter too. With `-j`, the same script lists the senders of
 everything in Junk, and the filter records `sender_junked`. The

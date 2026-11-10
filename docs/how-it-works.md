@@ -12,13 +12,15 @@ message.
    fields, which maddy adds to the top of the message:
 
    ```
-   X-Maddy-Jev-Filter: id=8f1c0e2a; not_interested=0.050; personal=0.012; phishing=0.031; spam=0.981; topic=shopping:0.870; transactional=0.020; sender_kept=no; sender_junked=yes; model=jev-1.14.0; rcpt=shop@example.org
+   X-Maddy-Jev-Filter: id=8f1c0e2a; not_interested=0.050; personal=0.012; phishing=0.031; spam=0.981; topic=shopping:0.870; transactional=0.020; sender_kept=no; sender_junked=yes; risky_attachment=no; model=jev-1.14.0; rcpt=shop@example.org
    X-Maddy-Jev-Filter-Action: id=8f1c0e2a; folder=Junk; read=yes; rule=spam-certain; version=4f2a9c81d0e3
    ```
 
    The first has Jev's answers, whether you've kept or junked mail from the
    sender before (`sender_kept`, `sender_junked`, see
-   [Learning from your mailbox](learning.md)), and `rcpt` with the envelope
+   [Learning from your mailbox](learning.md)), whether the message has a
+   risky attachment (`risky_attachment`, see
+   [Configuration](configuration.md#facts)), and `rcpt` with the envelope
    recipients before any rewriting, which maddy doesn't store otherwise.
 
    The second is the decision: the folder (`INBOX` if no rule matched),

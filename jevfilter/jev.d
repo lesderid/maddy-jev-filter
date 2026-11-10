@@ -27,7 +27,8 @@ struct Classification
 
 Classification classify(ref Config config, Bytes message, int attempts)
 {
-    auto sender = parseSender(messageInfo(message).from);
+    auto info = messageInfo(message);
+    auto sender = parseSender(info.from);
     auto questions = withSenderExamples(config.questions, config, sender);
     auto response = askJev(config, messageState(message, config.maxBodyChars, config.authservId), questions, attempts);
 
@@ -38,6 +39,10 @@ Classification classify(ref Config config, Bytes message, int attempts)
             "type": JSONValue("fact"),
             "value": JSONValue(senderKey(sender) in senders ? 1 : 0),
         ]);
+    result.answers.object["risky_attachment"] = JSONValue([
+        "type": JSONValue("fact"),
+        "value": JSONValue(info.riskyAttachment ? 1 : 0),
+    ]);
     result.model = response["model"].str;
     if (auto tokenUsage = "usage" in response)
         result.inputTokens = (*tokenUsage)["input_tokens"].integer;

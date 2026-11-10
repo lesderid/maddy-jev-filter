@@ -282,7 +282,7 @@ section(y, 4, "How well it works", MINT)
 top, h, gap = y + 25, 160, 20
 w = (INNER - 3 * gap) / 4
 stats = [
-    (PINK, "96.0%", "of spam goes to Junk"),
+    (PINK, "96.2%", "of spam goes to Junk"),
     (MINT, "0", "of 3,595 real messages junked"),
     (PEACH, "8", "real messages in Suspicious, for a look"),
     (BUTTER, "$0.10", "Jev's cost for 1,500 messages"),

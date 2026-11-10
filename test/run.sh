@@ -70,8 +70,9 @@ config /v1/systemone
 "$filter" --config="$work/config.json" classify --tag=test/stdin - < test/messages/forged.eml
 
 echo "unit tests"
-rdmd -unittest --main -I. jevfilter/examples.d && rdmd -unittest --main -I. jevfilter/text.d && echo "  passed"
+rdmd -unittest --main -I. jevfilter/examples.d && rdmd -unittest --main -I. jevfilter/text.d &&
+    rdmd -unittest --main -I. jevfilter/message.d && echo "  passed"
 
 echo "rules, applied by report to test/results.jsonl"
-echo "  expected: phishing, spam, new-sender and junked-sender to Junk; not-interested to Not interested; newsletter, phishing-but-transactional and likely to Suspicious; sports to Sports; spam-but-personal, new-sender-but-kept and junked-but-kept to INBOX; 1 unusable, 1 error"
+echo "  expected: phishing, spam, new-sender, junked-sender and risky-attachment to Junk; not-interested to Not interested; newsletter, phishing-but-transactional, likely and phishing-new-sender to Suspicious; sports to Sports; spam-but-personal, new-sender-but-kept, junked-but-kept and risky-attachment-but-kept to INBOX; 1 unusable, 1 error"
 "$filter" --config="$work/config.json" report --list=Junk --list=Suspicious --list=Sports --list=INBOX test/results.jsonl 2>&1 | sed 's/^/  /'

@@ -2,9 +2,9 @@
 /// of the body.
 module jevfilter.message;
 
-import std.algorithm : among, canFind, countUntil, map, min, startsWith;
+import std.algorithm : all, among, canFind, countUntil, map, min, startsWith;
 import std.array : array, join, replace, split;
-import std.ascii : isAlphaNum;
+import std.ascii : isAlphaNum, isDigit;
 import std.format : format;
 import std.json : JSONValue;
 import std.string : indexOf, lastIndexOf, representation, strip;
@@ -18,6 +18,9 @@ struct MessageInfo
     string messageId;
     string from;
     string subject;
+
+    /// Whether a part's file name is of a kind phishing and malware use
+    bool riskyAttachment;
 }
 
 MessageInfo messageInfo(Bytes message)
@@ -28,7 +31,39 @@ MessageInfo messageInfo(Bytes message)
     auto fields = parseFields(splitEntity(message).header);
     return MessageInfo(toUtf8(fieldValue(fields, "message-id")).strip,
         normalizeWhitespace(decodeWords(fieldValue(fields, "from"), parts.charset)),
-        normalizeWhitespace(decodeWords(fieldValue(fields, "subject"), parts.charset)));
+        normalizeWhitespace(decodeWords(fieldValue(fields, "subject"), parts.charset)),
+        parts.filenames.canFind!isRiskyAttachment);
+}
+
+/// Archives and disk images, which hide their contents from scanners;
+/// programs and scripts; HTML and SVG, which open fake login pages from the
+/// recipient's own disk; and Office files that can run code.
+bool isRiskyAttachment(string filename)
+{
+    auto name = filename.strip.strip(`"'.`).toLower;
+    auto dot = name.lastIndexOf('.');
+    if (dot < 0)
+        return false;
+    auto extension = name[dot + 1 .. $];
+    // Split archives: .r00, .r01, ...
+    if (extension.length == 3 && extension[0] == 'r' && extension[1 .. $].all!isDigit)
+        return true;
+    return extension.among("zip", "rar", "7z", "gz", "tgz", "bz2", "xz", "tar", "iso", "img", "vhd", "cab", "ace",
+        "arj", "lzh", "exe", "scr", "com", "bat", "cmd", "pif", "js", "jse", "vbs", "vbe", "wsf", "wsh", "hta", "msi",
+        "msix", "jar", "lnk", "ps1", "reg", "html", "htm", "shtml", "xhtml", "svg", "docm", "xlsm", "pptm", "one",
+        "xll", "iqy", "slk") != 0;
+}
+
+unittest
+{
+    assert(isRiskyAttachment("PURCHASE ORDER#008584.zip"));
+    assert(isRiskyAttachment("invoice.pdf.html"));
+    assert(isRiskyAttachment("Scan.R01"));
+    assert(isRiskyAttachment(`"payment.iso" `));
+    assert(!isRiskyAttachment("invoice.pdf"));
+    assert(!isRiskyAttachment("report.docx"));
+    assert(!isRiskyAttachment("zip"));
+    assert(!isRiskyAttachment("photo.rx1"));
 }
 
 JSONValue messageState(Bytes message, size_t maxBodyChars, string authservId = null)
@@ -75,6 +110,8 @@ struct BodyParts
     string plain;
     string html;
     string[] attachments;
+    /// Of every part that has one, attachments or not
+    string[] filenames;
     int count;
 
     /// Of the first text part. Headers with raw 8-bit text are usually in it too.
@@ -105,6 +142,8 @@ void collectBodyParts(Bytes entity, ref BodyParts parts, int depth)
 
     auto disposition = parseParams(fieldValue(fields, "content-disposition"));
     auto filename = disposition.params.get("filename", contentType.params.get("name", null));
+    if (filename.length)
+        parts.filenames ~= decodeWords(filename.representation);
     if (disposition.value == "inline" && type.startsWith("image/"))
         return;
     if (disposition.value == "attachment" || (filename.length && !type.startsWith("text/")))
